@@ -18,67 +18,77 @@ export default function Player({
 
   function handleEditClick() {
     setIsEditing(!isEditing);
+
     if (isEditing) {
       onChangeName(symbol, playerName);
     }
   }
 
+  function handleChange(text) {
+    setPlayerName(text);
+  }
+
   return (
-    <View style={[styles.playerContainer, isActive && styles.active]}>
-      <View style={styles.playerInfo}>
-        {isEditing ? (
-          <TextInput
-            style={styles.input}
-            value={playerName}
-            onChangeText={setPlayerName}
-          />
-        ) : (
-          <Text style={styles.playerName}>{playerName}</Text>
-        )}
-        <Text style={styles.playerSymbol}>{symbol}</Text>
-      </View>
-      <TouchableOpacity style={styles.button} onPress={handleEditClick}>
-        <Text style={styles.buttonText}>{isEditing ? "Save" : "Edit"}</Text>
+    <View style={styles.container}>
+      <Text style={[styles.symbol, isActive ? styles.active : null]}>
+        {symbol}
+      </Text>
+      {isEditing ? (
+        <TextInput
+          style={styles.input}
+          value={playerName}
+          onChangeText={handleChange}
+          onBlur={handleEditClick}
+          autoFocus
+        />
+      ) : (
+        <Text style={styles.name}>{playerName}</Text>
+      )}
+      <TouchableOpacity onPress={handleEditClick} style={styles.editButton}>
+        <Text style={styles.editButtonText}>{isEditing ? "Save" : "Edit"}</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  playerContainer: {
-    padding: 10,
-    marginVertical: 5,
-    alignItems: "center",
+  container: {
     flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
     justifyContent: "space-between",
-    width: "100%",
   },
-  active: {
-    backgroundColor: "#e0e0e0",
-  },
-  playerInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  playerName: {
-    fontSize: 18,
-  },
-  playerSymbol: {
+  symbol: {
     fontSize: 18,
     fontWeight: "bold",
-    marginLeft: 10,
+    marginRight: 5,
+    color: "white",
+  },
+  active: {
+    color: "green",
+  },
+  name: {
+    fontSize: 14,
+    marginRight: 5,
+    color: "white",
   },
   input: {
+    fontSize: 14,
     borderBottomWidth: 1,
-    fontSize: 18,
-    marginRight: 10,
+    borderBottomColor: "#000",
+    marginRight: 5,
+    padding: 0,
+    color: "white",
+    width: 80,
   },
-  button: {
-    backgroundColor: "#007BFF",
-    padding: 10,
-    borderRadius: 5,
+  editButton: {
+    backgroundColor: "#e83815",
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 4,
   },
-  buttonText: {
-    color: "#FFF",
+  editButtonText: {
+    color: "#fff",
+    fontSize: 12,
   },
 });

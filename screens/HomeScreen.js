@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -11,20 +11,18 @@ export default function HomeScreen({ navigation }) {
       />
       <Text style={styles.title}>Tic Tac Go</Text>
       <Text style={styles.subtitle}>Choose a play mode</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.aiButton]}
-          onPress={() => navigation.navigate("Game", { mode: "AI" })}
-        >
-          <Text style={styles.buttonText}>With AI</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.friendButton]}
-          onPress={() => navigation.navigate("Game", { mode: "Friend" })}
-        >
-          <Text style={styles.buttonText}>With a friend</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: "#ff6347" }]}
+        onPress={() => navigation.navigate("Game")}
+      >
+        <Text style={styles.buttonText}>With AI</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: "#32cd32" }]}
+        onPress={() => navigation.navigate("Game")}
+      >
+        <Text style={styles.buttonText}>With a friend</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -32,41 +30,35 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    backgroundColor: "#f0f0f0",
     alignItems: "center",
-    backgroundColor: "#fff",
+    justifyContent: "center",
+    padding: 20,
   },
   logo: {
     width: 200,
     height: 200,
-    marginBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginTop: 20,
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 20,
+    marginTop: 10,
     marginBottom: 20,
   },
-  buttonContainer: {
-    width: "80%",
-  },
   button: {
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 10,
+    width: "80%",
+    paddingVertical: 15,
+    borderRadius: 5,
     alignItems: "center",
-  },
-  aiButton: {
-    backgroundColor: "red",
-  },
-  friendButton: {
-    backgroundColor: "green",
+    marginTop: 10,
   },
   buttonText: {
     color: "#fff",
     fontSize: 18,
+    fontWeight: "bold",
   },
 });

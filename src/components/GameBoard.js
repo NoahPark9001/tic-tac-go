@@ -1,21 +1,31 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
 
 export default function GameBoard({ onSelectSquare, board }) {
   return (
     <View style={styles.board}>
       {board.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
-          {row.map((playerSymbol, colIndex) => (
-            <TouchableOpacity
-              key={colIndex}
-              style={styles.cell}
-              onPress={() => onSelectSquare(rowIndex, colIndex)}
-              disabled={playerSymbol !== null}
-            >
-              <Text style={styles.cellText}>{playerSymbol}</Text>
-            </TouchableOpacity>
-          ))}
+          {row.map((playerSymbol, colIndex) => {
+            const symbolImage =
+              playerSymbol === "X"
+                ? require("../../assets/x-mark.png")
+                : playerSymbol === "O"
+                ? require("../../assets/o-mark.png")
+                : null;
+            return (
+              <TouchableOpacity
+                key={colIndex}
+                onPress={() => onSelectSquare(rowIndex, colIndex)}
+                style={styles.square}
+                disabled={playerSymbol !== null}
+              >
+                {symbolImage && (
+                  <Image source={symbolImage} style={styles.symbolImage} />
+                )}
+              </TouchableOpacity>
+            );
+          })}
         </View>
       ))}
     </View>
@@ -24,24 +34,26 @@ export default function GameBoard({ onSelectSquare, board }) {
 
 const styles = StyleSheet.create({
   board: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 20,
+    width: 300,
+    height: 300,
+    backgroundColor: "black",
+    padding: 2,
   },
   row: {
     flexDirection: "row",
   },
-  cell: {
+  square: {
     width: 100,
     height: 100,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: "black",
+    backgroundColor: "#87a648",
+    margin: 1,
   },
-  cellText: {
-    fontSize: 24,
-    fontWeight: "bold",
+  symbolImage: {
+    width: 80,
+    height: 80,
   },
 });
