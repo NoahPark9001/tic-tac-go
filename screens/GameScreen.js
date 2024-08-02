@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { ScrollView, StyleSheet, View, Image, Text } from "react-native";
 import Player from "../src/components/Player";
 import GameBoard from "../src/components/GameBoard";
 import Log from "../src/components/Log";
