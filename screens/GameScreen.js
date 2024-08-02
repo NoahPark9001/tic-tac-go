@@ -134,6 +134,6 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 10,
     width: "90%",
-    marginBottom: 10,
+    marginBottom: 1,
   },
 });

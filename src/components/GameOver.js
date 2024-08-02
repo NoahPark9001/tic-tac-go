@@ -1,41 +1,78 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
+
+// Assuming the game board is 300x300
+const GAME_BOARD_SIZE = 300;
 
 export default function GameOver({ winner, onRestart }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Game Over!</Text>
-      {winner && <Text style={styles.message}>{winner} won!</Text>}
-      {!winner && <Text style={styles.message}>It's a draw!</Text>}
-      <TouchableOpacity style={styles.button} onPress={onRestart}>
-        <Text style={styles.buttonText}>Rematch!</Text>
-      </TouchableOpacity>
+    <View style={styles.overlayContainer}>
+      <View style={styles.overlay}>
+        <Text style={styles.heading}>GAME OVER</Text>
+        {winner && <Text style={styles.message}>{winner} Won</Text>}
+        {!winner && <Text style={styles.message}>It's a draw!</Text>}
+        <TouchableOpacity style={styles.button} onPress={onRestart}>
+          <Text style={styles.buttonText}>Restart</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  overlayContainer: {
+    position: "relative",
+    width: GAME_BOARD_SIZE,
+    height: GAME_BOARD_SIZE,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
+    backgroundColor: "black",
     padding: 20,
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
+    width: "90%",
+    height: "90%",
   },
   heading: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
-    marginBottom: 20,
+    color: "#e83815",
+    marginBottom: 10,
   },
   message: {
-    fontSize: 18,
+    fontSize: 24,
+    color: "white",
     marginBottom: 20,
   },
   button: {
-    backgroundColor: "#007BFF",
-    padding: 10,
+    backgroundColor: "#e83815",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 1,
   },
   buttonText: {
-    color: "#FFF",
-    fontSize: 16,
+    color: "white",
+    fontSize: 18,
   },
 });

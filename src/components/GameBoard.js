@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   square: {
-    width: 100,
-    height: 100,
+    width: 97,
+    height: 97,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
