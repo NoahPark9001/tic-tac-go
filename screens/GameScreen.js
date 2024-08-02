@@ -1,15 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, View, Image, Text } from "react-native";
 import Player from "../src/components/Player";
 import GameBoard from "../src/components/GameBoard";
 import Log from "../src/components/Log";
 import GameOver from "../src/components/GameOver";
 import { WINNING_COMBINATIONS } from "../winning-combinations";
-
-const PLAYERS = {
-  X: "Player 1",
-  O: "Player 2",
-};
 
 const INITIAL_GAME_BOARD = [
   [null, null, null],
@@ -47,20 +42,44 @@ function deriveWinner(gameBoard, players) {
   return winner;
 }
 
-export default function GameScreen() {
-  const [players, setPlayers] = useState(PLAYERS);
+export default function GameScreen({ route }) {
+  const { mode } = route.params;
+  const initialPlayers = mode === "With AI" ? { X: "Player 1", O: "AI" } : { X: "Player 1", O: "Player 2" };
+  const [players, setPlayers] = useState(initialPlayers);
   const [gameTurns, setGameTurns] = useState([]);
+  const [isAITurn, setIsAITurn] = useState(false);
 
   const activePlayer = deriveActivePlayer(gameTurns);
   const gameBoard = deriveGameBoard(gameTurns);
   const winner = deriveWinner(gameBoard, players);
   const hasDraw = gameTurns.length === 9 && !winner;
 
+  useEffect(() => {
+    if (mode === "With AI" && activePlayer === "O" && !winner && !hasDraw) {
+      setIsAITurn(true);
+      const timer = setTimeout(() => {
+        const emptySquares = gameBoard.reduce((acc, row, rowIndex) => {
+          row.forEach((square, colIndex) => {
+            if (square === null) acc.push({ row: rowIndex, col: colIndex });
+          });
+          return acc;
+        }, []);
+        const randomSquare =
+          emptySquares[Math.floor(Math.random() * emptySquares.length)];
+        handleSelectSquare(randomSquare.row, randomSquare.col);
+        setIsAITurn(false);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [activePlayer, gameBoard, winner, hasDraw, mode]);
+
   function handleSelectSquare(rowIndex, colIndex) {
-    setGameTurns((prevTurns) => [
-      { square: { row: rowIndex, col: colIndex }, player: activePlayer },
-      ...prevTurns,
-    ]);
+    if (mode === "With AI" || (mode === "With a Friend" && !winner && !hasDraw)) {
+      setGameTurns((prevTurns) => [
+        { square: { row: rowIndex, col: colIndex }, player: activePlayer },
+        ...prevTurns,
+      ]);
+    }
   }
 
   function handleRestart() {
@@ -68,10 +87,12 @@ export default function GameScreen() {
   }
 
   function handlePlayerNameChange(symbol, newName) {
-    setPlayers((prevPlayers) => ({
-      ...prevPlayers,
-      [symbol]: newName,
-    }));
+    if (mode !== "With AI" || symbol !== "O") {
+      setPlayers((prevPlayers) => ({
+        ...prevPlayers,
+        [symbol]: newName,
+      }));
+    }
   }
 
   return (
@@ -86,16 +107,17 @@ export default function GameScreen() {
       </View>
       <View style={styles.playersContainer}>
         <Player
-          initialName={PLAYERS.X}
+          initialName={players.X}
           symbol="X"
           isActive={activePlayer === "X"}
           onChangeName={handlePlayerNameChange}
         />
         <Player
-          initialName={PLAYERS.O}
+          initialName={players.O}
           symbol="O"
-          isActive={activePlayer === "O"}
+          isActive={activePlayer === "O" && !isAITurn}
           onChangeName={handlePlayerNameChange}
+          isNameChangeDisabled={mode === "With AI"}
         />
       </View>
       {winner || hasDraw ? (

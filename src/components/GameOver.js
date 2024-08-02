@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 
-// Assuming the game board is 300x300
 const GAME_BOARD_SIZE = 300;
 
 export default function GameOver({ winner, onRestart }) {
@@ -42,15 +35,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
-  },
-  container: {
-    backgroundColor: "black",
-    padding: 20,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "90%",
-    height: "90%",
   },
   heading: {
     fontSize: 32,

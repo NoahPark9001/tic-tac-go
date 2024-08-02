@@ -13,13 +13,13 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.subtitle}>Choose a play mode</Text>
       <TouchableOpacity
         style={[styles.button, { backgroundColor: "#ff6347" }]}
-        onPress={() => navigation.navigate("Game")}
+        onPress={() => navigation.navigate("Game", { mode: "With AI" })}
       >
         <Text style={styles.buttonText}>With AI</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: "#32cd32" }]}
-        onPress={() => navigation.navigate("Game")}
+        style={[styles.button, { backgroundColor: "#87a648" }]}
+        onPress={() => navigation.navigate("Game", { mode: "With a Friend" })}
       >
         <Text style={styles.buttonText}>With a friend</Text>
       </TouchableOpacity>

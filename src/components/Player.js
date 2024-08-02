@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 4,
     justifyContent: "space-between",
   },
   symbol: {
